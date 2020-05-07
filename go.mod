@@ -1,4 +1,4 @@
-module github.com/zakon47/_time.git
+module github.com/zakon47/_time
 
 go 1.13
 
