@@ -128,8 +128,12 @@ var tt9 = time.Date(2020, time.May, 7, 22, 33, 59, 0, time.UTC)  //07-05-2020 22
 var tt10 = time.Date(2020, time.May, 7, 22, 31, 30, 0, time.UTC) //07-05-2020 22:31:30
 var tt11 = time.Date(2020, time.May, 7, 22, 35, 00, 0, time.UTC) //07-05-2020 22:35:00
 var tt12 = time.Date(2020, time.May, 7, 22, 33, 00, 0, time.UTC) //07-05-2020 22:33:00
+var tt13 = time.Date(2020, time.May, 7, 22, 40, 00, 0, time.UTC) //07-05-2020 22:40:00
+var tt14 = time.Date(2020, time.May, 7, 22, 36, 00, 0, time.UTC) //07-05-2020 22:36:00
+var tt15 = time.Date(2020, time.May, 7, 22, 34, 00, 0, time.UTC) //07-05-2020 22:34:00
+var tt16 = time.Date(2020, time.May, 7, 22, 40, 00, 0, time.UTC) //07-05-2020 22:40:00
 
-func TestPoint_Ceil(t *testing.T) {
+func TestPointer_Ceil(t *testing.T) {
 	data := []struct {
 		name   string
 		time   time.Time
@@ -148,16 +152,76 @@ func TestPoint_Ceil(t *testing.T) {
 		{name: "test9", time: tt6, diff: 60, result: tt1},
 		{name: "test10", time: tt7, diff: 120, result: tt7},
 
-		{name: "test10", time: tt8, diff: _time.Metka("5m").Uint32(), result: tt11},
-		{name: "test10", time: tt8, diff: _time.Metka("10m").Uint32(), result: tt0},
-		{name: "test10", time: tt9, diff: _time.Metka("5m").Uint32(), result: tt0},
-		{name: "test10", time: tt10, diff: _time.Metka("3m").Uint32(), result: tt0},
-		{name: "test10", time: tt11, diff: _time.Metka("5m").Uint32(), result: tt11},
-		{name: "test10", time: tt11, diff: _time.Metka("3m").Uint32(), result: tt12},
+		{name: "test11", time: tt8, diff: _time.Metka("5m").Uint32(), result: tt11},
+		{name: "test12", time: tt8, diff: _time.Metka("10m").Uint32(), result: tt0},
+		{name: "test13", time: tt9, diff: _time.Metka("5m").Uint32(), result: tt0},
+		{name: "test14", time: tt10, diff: _time.Metka("3m").Uint32(), result: tt0},
+		{name: "test15", time: tt11, diff: _time.Metka("5m").Uint32(), result: tt11},
+		{name: "test16", time: tt11, diff: _time.Metka("3m").Uint32(), result: tt12},
+		{name: "test22", time: tt7, diff: 0, result: tt7},
+		{name: "test23", time: tt8, diff: 0, result: tt8},
+	}
+	for _, test := range data {
+		t.Run(test.name, func(t *testing.T) {
+			assert.Equal(t, test.result.Unix(), _time.Pointer(test.time.Unix()).Ceil(test.diff).Time().Unix())
+		})
+	}
+}
+func TestPointer_Floor(t *testing.T) {
+	data := []struct {
+		name   string
+		time   time.Time
+		diff   uint32
+		result time.Time
+	}{
+		{name: "test0", time: tt6, diff: 120, result: tt7},
+		{name: "test1", time: tt1, diff: 60, result: tt7},
+		{name: "test2", time: tt1, diff: 30, result: tt4},
+		{name: "test3", time: tt2, diff: 30, result: tt4},
+		{name: "test4", time: tt3, diff: 30, result: tt4},
+		{name: "test5", time: tt4, diff: 30, result: tt7},
+		{name: "test6", time: tt5, diff: 60, result: tt7},
+		{name: "test7", time: tt5, diff: 30, result: tt7},
+		{name: "test8", time: tt6, diff: 30, result: tt7},
+		{name: "test9", time: tt6, diff: 60, result: tt7},
+		{name: "test10", time: tt7, diff: 120, result: tt15},
+
+		{name: "test11", time: tt8, diff: _time.Metka("5m").Uint32(), result: tt13},
+		{name: "test12", time: tt8, diff: _time.Metka("10m").Uint32(), result: tt13},
+		{name: "test13", time: tt9, diff: _time.Metka("5m").Uint32(), result: tt11},
+		{name: "test14", time: tt10, diff: _time.Metka("3m").Uint32(), result: tt12},
+		{name: "test15", time: tt11, diff: _time.Metka("5m").Uint32(), result: tt16},
+		{name: "test16", time: tt11, diff: _time.Metka("3m").Uint32(), result: tt14},
+		{name: "test22", time: tt7, diff: 0, result: tt7},
+		{name: "test23", time: tt8, diff: 0, result: tt8},
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
 			assert.Equal(t, test.result.Unix(), _time.Pointer(test.time.Unix()).Floor(test.diff).Time().Unix())
+		})
+	}
+}
+
+func TestInterval_Linear(t *testing.T) {
+	data := []struct {
+		name   string
+		from   time.Time
+		to     time.Time
+		step   uint32
+		result []int64
+	}{
+		{name: "test1", from: tt6, to: tt6.Add(5 * time.Minute), step: uint32(60), result: []int64{1588890660, 1588890720, 1588890780, 1588890840, 1588890900, 1588890960, 1588891020}},
+		{name: "test1", from: tt6, to: tt6.Add(-5 * time.Minute), step: uint32(60), result: []int64{1588890720, 1588890660, 1588890600, 1588890540, 1588890480, 1588890420, 1588890360}},
+		{name: "test1", from: tt6, to: tt6.Add(5 * time.Minute), step: uint32(0), result: []int64{}},
+		{name: "test1", from: tt6, to: tt6.Add(-5 * time.Minute), step: uint32(0), result: []int64{}},
+		{name: "test3", from: tt6, to: tt6.Add(-1*time.Minute + 10*time.Second), step: uint32(18), result: []int64{1588890726, 1588890708, 1588890690, 1588890672, 1588890654}},
+		{name: "test4", from: tt6, to: tt6.Add(1*time.Minute + 10*time.Second), step: uint32(18), result: []int64{1588890708, 1588890726, 1588890744, 1588890762, 1588890780, 1588890798}},
+		{name: "test5", from: tt6, to: tt6, step: uint32(18), result: []int64{1588890726, 1588890708}},
+	}
+	for _, test := range data {
+		t.Run(test.name, func(t *testing.T) {
+			interv := _time.Interval{test.from, test.to}
+			assert.Equal(t, test.result, interv.Linear(test.step))
 		})
 	}
 }

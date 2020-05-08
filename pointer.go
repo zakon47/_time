@@ -6,16 +6,16 @@ import (
 
 type Pointer int64
 
-func (s Pointer) Floor(metka uint32) Pointer {
+func (s Pointer) Ceil(metka uint32) Pointer {
 	if metka <= 0 {
-		metka = 1
+		return s
 	}
 	del := s % Pointer(metka)
 	return s - del
 }
-func (s Pointer) Ceil(metka uint32) Pointer {
-	if metka < 0 {
-		metka = 0
+func (s Pointer) Floor(metka uint32) Pointer {
+	if metka <= 0 {
+		return s
 	}
 	del := s % Pointer(metka)
 	return s + (Pointer(metka) - del)
@@ -28,4 +28,7 @@ func (s Pointer) Time() time.Time {
 }
 func (s Pointer) Int64() int64 {
 	return int64(s)
+}
+func (s Pointer) Uint32() uint32 {
+	return uint32(s)
 }
