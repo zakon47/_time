@@ -6,23 +6,23 @@ import (
 	"strings"
 )
 
-type Metka struct {
+type Marker struct {
 	name   string
 	symbol string
 	num    int
 	itog   uint32
 }
 
-func (m *Metka) Name1D() string {
+func (m *Marker) Name1D() string {
 	return strconv.Itoa(m.num) + m.symbol
 }
-func (m *Metka) NameD1() string {
+func (m *Marker) NameD1() string {
 	return m.symbol + strconv.Itoa(m.num)
 }
-func (m *Metka) Uint32() uint32 {
+func (m *Marker) Uint32() uint32 {
 	return m.itog
 }
-func (m *Metka) Int64() int64 {
+func (m *Marker) Int64() int64 {
 	return int64(m.itog)
 }
 
@@ -30,16 +30,16 @@ func (m *Metka) Int64() int64 {
 Преобразовать строковую метку в uin32 число!
 Пример: m10
 */
-func NewMetkaD1(metka string) *Metka {
+func NewMetkaD1(metka string) *Marker {
 	metka = strings.Trim(metka, " ")
 	if len(metka) == 0 {
-		return &Metka{}
+		return &Marker{}
 	}
 	metka = strings.ToLower(metka)
 
 	number, symbol := _strings.NumberRight(metka)
 	num, KK := goGet(number, symbol)
-	return &Metka{
+	return &Marker{
 		num:    num,
 		itog:   uint32(num) * KK,
 		name:   metka,
@@ -51,16 +51,16 @@ func NewMetkaD1(metka string) *Metka {
 Преобразовать строковую метку в uin32 число!
 Пример: 10m
 */
-func NewMetka1D(metka string) *Metka {
+func NewMetka1D(metka string) *Marker {
 	metka = strings.Trim(metka, " ")
 	if len(metka) == 0 {
-		return &Metka{}
+		return &Marker{}
 	}
 	metka = strings.ToLower(metka)
 
 	number, symbol := _strings.NumberLeft(metka)
 	num, KK := goGet(number, symbol)
-	return &Metka{
+	return &Marker{
 		num:    num,
 		itog:   uint32(num) * KK,
 		name:   metka,
