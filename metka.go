@@ -1,9 +1,9 @@
 package _time
 
 import (
+	"github.com/zakon47/_strings"
 	"strconv"
 	"strings"
-	"unicode/utf8"
 )
 
 type metka2 struct {
@@ -31,26 +31,20 @@ func (m *metka2) Int64() int64 {
 Пример: m10
 */
 func MetkaLast(metka string) *metka2 {
-	return goGet(metka, func(metka string) (string, string) {
-		var pos = len(metka)
-		for k := len(metka) - 1; k >= 0; k-- {
-			n, _ := utf8.DecodeRuneInString(string(metka[k]))
-			if n > 47 && n < 58 {
-				pos--
-			} else {
-				break
-			}
-		}
-		var symbol, number string
-		if pos == len(metka) {
-			symbol = metka[:pos]
-			number = "0"
-		} else {
-			symbol = metka[:pos]
-			number = metka[pos:]
-		}
-		return symbol, number
-	})
+	metka = strings.Trim(metka, " ")
+	if len(metka) == 0 {
+		return &metka2{}
+	}
+	metka = strings.ToLower(metka)
+
+	number, symbol := _strings.NumberRight(metka)
+	num, KK := goGet(number, symbol)
+	return &metka2{
+		num:    num,
+		itog:   uint32(num) * KK,
+		name:   metka,
+		symbol: symbol,
+	}
 }
 
 /*
@@ -58,46 +52,23 @@ func MetkaLast(metka string) *metka2 {
 Пример: 10m
 */
 func Metka(metka string) *metka2 {
-	return goGet(metka, func(metka string) (string, string) {
-		var pos = 0
-		for k := 0; k < len(metka); k++ {
-			n, _ := utf8.DecodeRuneInString(string(metka[k]))
-			if n > 47 && n < 58 {
-				pos++
-			} else {
-				break
-			}
-		}
-		var symbol, number string
-		if pos == 0 {
-			symbol = metka[pos:]
-			number = "0"
-		} else {
-			symbol = metka[pos:]
-			number = metka[:pos]
-		}
-		return symbol, number
-	})
-}
-
-func goGet(metka string, fn func(metka string) (string, string)) *metka2 {
 	metka = strings.Trim(metka, " ")
 	if len(metka) == 0 {
 		return &metka2{}
 	}
 	metka = strings.ToLower(metka)
-	var pos = 0
-	for k := 0; k < len(metka); k++ {
-		n, _ := utf8.DecodeRuneInString(string(metka[k]))
-		if n > 47 && n < 58 {
-			pos++
-		} else {
-			break
-		}
+
+	number, symbol := _strings.NumberLeft(metka)
+	num, KK := goGet(number, symbol)
+	return &metka2{
+		num:    num,
+		itog:   uint32(num) * KK,
+		name:   metka,
+		symbol: symbol,
 	}
+}
 
-	symbol, number := fn(metka)
-
+func goGet(number, symbol string) (int, uint32) {
 	num, err := strconv.Atoi(number)
 	if err != nil || num < 0 {
 		num = 0
@@ -118,10 +89,5 @@ func goGet(metka string, fn func(metka string) (string, string)) *metka2 {
 	case "w":
 		KK = 60 * 60 * 24 * 7
 	}
-	return &metka2{
-		num:    num,
-		itog:   uint32(num) * KK,
-		name:   metka,
-		symbol: symbol,
-	}
+	return num, KK
 }

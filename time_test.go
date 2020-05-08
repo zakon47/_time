@@ -2,7 +2,7 @@ package _time_test
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/zakon47/_time.git"
+	"github.com/zakon47/_time"
 	"testing"
 	"time"
 )
