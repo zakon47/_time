@@ -20,7 +20,7 @@ func (s Pointer) Floor(metka uint32) Pointer {
 	del := s % Pointer(metka)
 	return s + (Pointer(metka) - del)
 }
-func (s Pointer) String() string {
+func (s Pointer) Name1D() string {
 	return time.Unix(int64(s), 0).String()
 }
 func (s Pointer) Time() time.Time {
