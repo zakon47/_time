@@ -30,7 +30,7 @@ func (m *Marker) Int64() int64 {
 Преобразовать строковую метку в uin32 число!
 Пример: m10
 */
-func NewMetkaD1(metka string) *Marker {
+func NewMarkerD1(metka string) *Marker {
 	metka = strings.Trim(metka, " ")
 	if len(metka) == 0 {
 		return &Marker{}
@@ -51,7 +51,7 @@ func NewMetkaD1(metka string) *Marker {
 Преобразовать строковую метку в uin32 число!
 Пример: 10m
 */
-func NewMetka1D(metka string) *Marker {
+func NewMarker1D(metka string) *Marker {
 	metka = strings.Trim(metka, " ")
 	if len(metka) == 0 {
 		return &Marker{}

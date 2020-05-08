@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func TestNewMetka1D(t *testing.T) {
+func TestNewMarker1D(t *testing.T) {
 	data := []struct {
 		name   string
 		metka  string
@@ -28,11 +28,11 @@ func TestNewMetka1D(t *testing.T) {
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t, test.result, _time.NewMetka1D(test.metka).Uint32())
+			assert.Equal(t, test.result, _time.NewMarker1D(test.metka).Uint32())
 		})
 	}
 }
-func TestMetkaName(t *testing.T) {
+func TestMarkerName(t *testing.T) {
 	data := []struct {
 		name string
 		swap bool
@@ -54,14 +54,14 @@ func TestMetkaName(t *testing.T) {
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
 			if test.swap {
-				assert.Equal(t, test.out, _time.NewMetka1D(test.in).NameD1())
+				assert.Equal(t, test.out, _time.NewMarker1D(test.in).NameD1())
 			} else {
-				assert.Equal(t, test.out, _time.NewMetka1D(test.in).Name1D())
+				assert.Equal(t, test.out, _time.NewMarker1D(test.in).Name1D())
 			}
 		})
 	}
 }
-func TestNewMetkaD1(t *testing.T) {
+func TestNewMarkerD1(t *testing.T) {
 	data := []struct {
 		name   string
 		metka  string
@@ -82,11 +82,11 @@ func TestNewMetkaD1(t *testing.T) {
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t, test.result, _time.NewMetkaD1(test.metka).Uint32())
+			assert.Equal(t, test.result, _time.NewMarkerD1(test.metka).Uint32())
 		})
 	}
 }
-func TestMetkaNameLast(t *testing.T) {
+func TestMarkerNameLast(t *testing.T) {
 	data := []struct {
 		name string
 		swap bool
@@ -107,9 +107,9 @@ func TestMetkaNameLast(t *testing.T) {
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
 			if test.swap {
-				assert.Equal(t, test.out, _time.NewMetkaD1(test.in).NameD1())
+				assert.Equal(t, test.out, _time.NewMarkerD1(test.in).NameD1())
 			} else {
-				assert.Equal(t, test.out, _time.NewMetkaD1(test.in).Name1D())
+				assert.Equal(t, test.out, _time.NewMarkerD1(test.in).Name1D())
 			}
 		})
 	}
@@ -152,12 +152,12 @@ func TestPointer_Ceil(t *testing.T) {
 		{name: "test9", time: tt6, diff: 60, result: tt1},
 		{name: "test10", time: tt7, diff: 120, result: tt7},
 
-		{name: "test11", time: tt8, diff: _time.NewMetka1D("5m").Uint32(), result: tt11},
-		{name: "test12", time: tt8, diff: _time.NewMetka1D("10m").Uint32(), result: tt0},
-		{name: "test13", time: tt9, diff: _time.NewMetka1D("5m").Uint32(), result: tt0},
-		{name: "test14", time: tt10, diff: _time.NewMetka1D("3m").Uint32(), result: tt0},
-		{name: "test15", time: tt11, diff: _time.NewMetka1D("5m").Uint32(), result: tt11},
-		{name: "test16", time: tt11, diff: _time.NewMetka1D("3m").Uint32(), result: tt12},
+		{name: "test11", time: tt8, diff: _time.NewMarker1D("5m").Uint32(), result: tt11},
+		{name: "test12", time: tt8, diff: _time.NewMarker1D("10m").Uint32(), result: tt0},
+		{name: "test13", time: tt9, diff: _time.NewMarker1D("5m").Uint32(), result: tt0},
+		{name: "test14", time: tt10, diff: _time.NewMarker1D("3m").Uint32(), result: tt0},
+		{name: "test15", time: tt11, diff: _time.NewMarker1D("5m").Uint32(), result: tt11},
+		{name: "test16", time: tt11, diff: _time.NewMarker1D("3m").Uint32(), result: tt12},
 		{name: "test22", time: tt7, diff: 0, result: tt7},
 		{name: "test23", time: tt8, diff: 0, result: tt8},
 	}
@@ -186,12 +186,12 @@ func TestPointer_Floor(t *testing.T) {
 		{name: "test9", time: tt6, diff: 60, result: tt7},
 		{name: "test10", time: tt7, diff: 120, result: tt15},
 
-		{name: "test11", time: tt8, diff: _time.NewMetka1D("5m").Uint32(), result: tt13},
-		{name: "test12", time: tt8, diff: _time.NewMetka1D("10m").Uint32(), result: tt13},
-		{name: "test13", time: tt9, diff: _time.NewMetka1D("5m").Uint32(), result: tt11},
-		{name: "test14", time: tt10, diff: _time.NewMetka1D("3m").Uint32(), result: tt12},
-		{name: "test15", time: tt11, diff: _time.NewMetka1D("5m").Uint32(), result: tt16},
-		{name: "test16", time: tt11, diff: _time.NewMetka1D("3m").Uint32(), result: tt14},
+		{name: "test11", time: tt8, diff: _time.NewMarker1D("5m").Uint32(), result: tt13},
+		{name: "test12", time: tt8, diff: _time.NewMarker1D("10m").Uint32(), result: tt13},
+		{name: "test13", time: tt9, diff: _time.NewMarker1D("5m").Uint32(), result: tt11},
+		{name: "test14", time: tt10, diff: _time.NewMarker1D("3m").Uint32(), result: tt12},
+		{name: "test15", time: tt11, diff: _time.NewMarker1D("5m").Uint32(), result: tt16},
+		{name: "test16", time: tt11, diff: _time.NewMarker1D("3m").Uint32(), result: tt14},
 		{name: "test22", time: tt7, diff: 0, result: tt7},
 		{name: "test23", time: tt8, diff: 0, result: tt8},
 	}
