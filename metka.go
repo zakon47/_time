@@ -7,10 +7,10 @@ import (
 )
 
 type Marker struct {
-	Name   string
-	Symbol string
-	Num    int
-	Itog   uint32
+	Name    string
+	Symbol  string
+	Num     int
+	Seconds uint32
 }
 
 func (m *Marker) Name1D() string {
@@ -18,12 +18,6 @@ func (m *Marker) Name1D() string {
 }
 func (m *Marker) NameD1() string {
 	return m.Symbol + strconv.Itoa(m.Num)
-}
-func (m *Marker) Uint32() uint32 {
-	return m.Itog
-}
-func (m *Marker) Int64() int64 {
-	return int64(m.Itog)
 }
 
 /*
@@ -40,10 +34,10 @@ func NewMarkerD1(metka string) *Marker {
 	number, Symbol := _strings.NumberRight(metka)
 	num, KK := goGet(number, Symbol)
 	return &Marker{
-		Num:    num,
-		Itog:   uint32(num) * KK,
-		Name:   metka,
-		Symbol: Symbol,
+		Num:     num,
+		Seconds: uint32(num) * KK,
+		Name:    metka,
+		Symbol:  Symbol,
 	}
 }
 
@@ -61,10 +55,10 @@ func NewMarker1D(metka string) *Marker {
 	number, Symbol := _strings.NumberLeft(metka)
 	num, KK := goGet(number, Symbol)
 	return &Marker{
-		Num:    num,
-		Itog:   uint32(num) * KK,
-		Name:   metka,
-		Symbol: Symbol,
+		Num:     num,
+		Seconds: uint32(num) * KK,
+		Name:    metka,
+		Symbol:  Symbol,
 	}
 }
 
