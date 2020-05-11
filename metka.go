@@ -7,23 +7,23 @@ import (
 )
 
 type Marker struct {
-	name   string
-	symbol string
-	num    int
-	itog   uint32
+	Name   string
+	Symbol string
+	Num    int
+	Itog   uint32
 }
 
 func (m *Marker) Name1D() string {
-	return strconv.Itoa(m.num) + m.symbol
+	return strconv.Itoa(m.Num) + m.Symbol
 }
 func (m *Marker) NameD1() string {
-	return m.symbol + strconv.Itoa(m.num)
+	return m.Symbol + strconv.Itoa(m.Num)
 }
 func (m *Marker) Uint32() uint32 {
-	return m.itog
+	return m.Itog
 }
 func (m *Marker) Int64() int64 {
-	return int64(m.itog)
+	return int64(m.Itog)
 }
 
 /*
@@ -37,13 +37,13 @@ func NewMarkerD1(metka string) *Marker {
 	}
 	metka = strings.ToLower(metka)
 
-	number, symbol := _strings.NumberRight(metka)
-	num, KK := goGet(number, symbol)
+	number, Symbol := _strings.NumberRight(metka)
+	num, KK := goGet(number, Symbol)
 	return &Marker{
-		num:    num,
-		itog:   uint32(num) * KK,
-		name:   metka,
-		symbol: symbol,
+		Num:    num,
+		Itog:   uint32(num) * KK,
+		Name:   metka,
+		Symbol: Symbol,
 	}
 }
 
@@ -58,24 +58,24 @@ func NewMarker1D(metka string) *Marker {
 	}
 	metka = strings.ToLower(metka)
 
-	number, symbol := _strings.NumberLeft(metka)
-	num, KK := goGet(number, symbol)
+	number, Symbol := _strings.NumberLeft(metka)
+	num, KK := goGet(number, Symbol)
 	return &Marker{
-		num:    num,
-		itog:   uint32(num) * KK,
-		name:   metka,
-		symbol: symbol,
+		Num:    num,
+		Itog:   uint32(num) * KK,
+		Name:   metka,
+		Symbol: Symbol,
 	}
 }
 
-func goGet(number, symbol string) (int, uint32) {
+func goGet(number, Symbol string) (int, uint32) {
 	num, err := strconv.Atoi(number)
 	if err != nil || num < 0 {
 		num = 0
 	}
 	//Определем коэфицент умножения
 	var KK uint32 = 0
-	switch symbol {
+	switch Symbol {
 	case "m":
 		KK = 60
 	case "h":
