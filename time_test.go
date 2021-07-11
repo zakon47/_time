@@ -1,8 +1,8 @@
-package _time_test
+package time_interval_test
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/zakon47/_time"
+	"github.com/zakon47/time_interval"
 	"testing"
 	"time"
 )
@@ -28,14 +28,14 @@ func TestNewMarker1D(t *testing.T) {
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t, test.result, _time.NewMarker1D(test.metka).Seconds)
+			assert.Equal(t, test.result, time_interval.NewMarker1D(test.metka).GetSeconds())
 		})
 	}
 }
 func TestMarkerName(t *testing.T) {
 	data := []struct {
 		name string
-		swap bool
+		swap bool //вернуть ответ в обратном порядке
 		in   string
 		out  string
 	}{
@@ -54,9 +54,9 @@ func TestMarkerName(t *testing.T) {
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
 			if test.swap {
-				assert.Equal(t, test.out, _time.NewMarker1D(test.in).NameD1())
+				assert.Equal(t, test.out, time_interval.NewMarker1D(test.in).GetNameD1())
 			} else {
-				assert.Equal(t, test.out, _time.NewMarker1D(test.in).Name1D())
+				assert.Equal(t, test.out, time_interval.NewMarker1D(test.in).GetName1D())
 			}
 		})
 	}
@@ -82,14 +82,14 @@ func TestNewMarkerD1(t *testing.T) {
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t, test.result, _time.NewMarkerD1(test.metka).Seconds)
+			assert.Equal(t, test.result, time_interval.NewMarkerD1(test.metka).GetSeconds())
 		})
 	}
 }
 func TestMarkerNameLast(t *testing.T) {
 	data := []struct {
 		name string
-		swap bool
+		swap bool //вернуть ответ в обратном порядке
 		in   string
 		out  string
 	}{
@@ -107,9 +107,9 @@ func TestMarkerNameLast(t *testing.T) {
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
 			if test.swap {
-				assert.Equal(t, test.out, _time.NewMarkerD1(test.in).NameD1())
+				assert.Equal(t, test.out, time_interval.NewMarkerD1(test.in).GetNameD1())
 			} else {
-				assert.Equal(t, test.out, _time.NewMarkerD1(test.in).Name1D())
+				assert.Equal(t, test.out, time_interval.NewMarkerD1(test.in).GetName1D())
 			}
 		})
 	}
@@ -152,18 +152,18 @@ func TestPointer_Ceil(t *testing.T) {
 		{name: "test9", time: tt6, diff: 60, result: tt1},
 		{name: "test10", time: tt7, diff: 120, result: tt7},
 
-		{name: "test11", time: tt8, diff: _time.NewMarker1D("5m").Seconds, result: tt11},
-		{name: "test12", time: tt8, diff: _time.NewMarker1D("10m").Seconds, result: tt0},
-		{name: "test13", time: tt9, diff: _time.NewMarker1D("5m").Seconds, result: tt0},
-		{name: "test14", time: tt10, diff: _time.NewMarker1D("3m").Seconds, result: tt0},
-		{name: "test15", time: tt11, diff: _time.NewMarker1D("5m").Seconds, result: tt11},
-		{name: "test16", time: tt11, diff: _time.NewMarker1D("3m").Seconds, result: tt12},
+		{name: "test11", time: tt8, diff: time_interval.NewMarker1D("5m").GetSeconds(), result: tt11},
+		{name: "test12", time: tt8, diff: time_interval.NewMarker1D("10m").GetSeconds(), result: tt0},
+		{name: "test13", time: tt9, diff: time_interval.NewMarker1D("5m").GetSeconds(), result: tt0},
+		{name: "test14", time: tt10, diff: time_interval.NewMarker1D("3m").GetSeconds(), result: tt0},
+		{name: "test15", time: tt11, diff: time_interval.NewMarker1D("5m").GetSeconds(), result: tt11},
+		{name: "test16", time: tt11, diff: time_interval.NewMarker1D("3m").GetSeconds(), result: tt12},
 		{name: "test22", time: tt7, diff: 0, result: tt7},
 		{name: "test23", time: tt8, diff: 0, result: tt8},
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t, test.result.Unix(), _time.Pointer(test.time.Unix()).Ceil(test.diff).Time().Unix())
+			assert.Equal(t, test.result.Unix(), time_interval.Pointer(test.time.Unix()).Ceil(test.diff).Time().Unix())
 		})
 	}
 }
@@ -186,18 +186,18 @@ func TestPointer_Floor(t *testing.T) {
 		{name: "test9", time: tt6, diff: 60, result: tt7},
 		{name: "test10", time: tt7, diff: 120, result: tt15},
 
-		{name: "test11", time: tt8, diff: _time.NewMarker1D("5m").Seconds, result: tt13},
-		{name: "test12", time: tt8, diff: _time.NewMarker1D("10m").Seconds, result: tt13},
-		{name: "test13", time: tt9, diff: _time.NewMarker1D("5m").Seconds, result: tt11},
-		{name: "test14", time: tt10, diff: _time.NewMarker1D("3m").Seconds, result: tt12},
-		{name: "test15", time: tt11, diff: _time.NewMarker1D("5m").Seconds, result: tt16},
-		{name: "test16", time: tt11, diff: _time.NewMarker1D("3m").Seconds, result: tt14},
+		{name: "test11", time: tt8, diff: time_interval.NewMarker1D("5m").GetSeconds(), result: tt13},
+		{name: "test12", time: tt8, diff: time_interval.NewMarker1D("10m").GetSeconds(), result: tt13},
+		{name: "test13", time: tt9, diff: time_interval.NewMarker1D("5m").GetSeconds(), result: tt11},
+		{name: "test14", time: tt10, diff: time_interval.NewMarker1D("3m").GetSeconds(), result: tt12},
+		{name: "test15", time: tt11, diff: time_interval.NewMarker1D("5m").GetSeconds(), result: tt16},
+		{name: "test16", time: tt11, diff: time_interval.NewMarker1D("3m").GetSeconds(), result: tt14},
 		{name: "test22", time: tt7, diff: 0, result: tt7},
 		{name: "test23", time: tt8, diff: 0, result: tt8},
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			assert.Equal(t, test.result.Unix(), _time.Pointer(test.time.Unix()).Floor(test.diff).Time().Unix())
+			assert.Equal(t, test.result.Unix(), time_interval.Pointer(test.time.Unix()).Floor(test.diff).Time().Unix())
 		})
 	}
 }
@@ -220,7 +220,7 @@ func TestInterval_Linear(t *testing.T) {
 	}
 	for _, test := range data {
 		t.Run(test.name, func(t *testing.T) {
-			interv := _time.Interval{test.from, test.to}
+			interv := time_interval.NewInterval(test.from, test.to)
 			assert.Equal(t, test.result, interv.Linear(test.step))
 		})
 	}

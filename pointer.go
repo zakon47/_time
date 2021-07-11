@@ -1,4 +1,4 @@
-package _time
+package time_interval
 
 import (
 	"time"

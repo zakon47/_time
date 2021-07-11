@@ -1,16 +1,26 @@
-package _time
+package time_interval
 
 import (
+	"fmt"
 	"time"
 )
 
-type Interval struct {
+type interval struct {
 	From time.Time
 	To   time.Time
+	fmt.Stringer
+}
+
+//Создать интервал по 2м точкам
+func NewInterval(from, to time.Time) *interval {
+	return &interval{
+		From: from,
+		To:   to,
+	}
 }
 
 //получить линейный интервал по точкам
-func (s *Interval) Linear(step uint32) []int64 {
+func (s *interval) Linear(step uint32) []int64 {
 	t1 := s.From.Unix()
 	t2 := s.To.Unix()
 	if step <= 0 {
@@ -39,6 +49,10 @@ func (s *Interval) Linear(step uint32) []int64 {
 	}
 }
 
-func (s *Interval) Double(step uint32) []int64 {
+func (s *interval) Double(step uint32) []int64 {
 	return nil
+}
+
+func (s *interval) String() string {
+	return fmt.Sprintf("%d -> %d", s.From.Local().Unix(), s.To.Local().Unix())
 }
